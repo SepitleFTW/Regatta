@@ -26,6 +26,7 @@ class Regatta(models.Model):
         ],
         default = 'upcoming'
     )
+
     description = models.TextField(blank=True)
     class Meta:
         ordering = ['-date']
@@ -57,6 +58,7 @@ class Race(models.Model):
         ('eight', 'Eight'),
     ]
     )
+
     gender = models.CharField(max_length=6,
                               choices = [
                                   ('male', 'Male'),
@@ -71,3 +73,17 @@ class Race(models.Model):
 
     def __str__(self):
         return f"({self.race_category} {self.race_number} {self.boat_class})"
+    
+class Result(models.Model):
+    #this result class will show the results of the regatta
+    race = models.ForeignKey(Race, related_name='results', on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, related_name='club', on_delete=models.CASCADE)
+    crew_names = models.CharField(max_length=200, blank=True)
+    finish_time = models.CharField(max_length=20)
+    finish_position = models.IntegerField()
+    lane = models.IntegerField()
+
+
+    def __str__ (self):
+        return f"({self.race} {self.club} {self.crew_names} {self.finish_time} {self.lane})"
+
