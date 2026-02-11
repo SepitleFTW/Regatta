@@ -33,3 +33,41 @@ class Regatta(models.Model):
     def __str__(self):
         return f"({self.name} {self.date})"
         
+class Race(models.Model):
+    #this result class will show the results of the regatta
+    race_category = models.CharField(
+        max_length=20,
+        choices = [
+        ('junior', 'U14'),
+        ('senior', 'U16/Open'),
+        ('masters', 'Masters'),
+        ('lightweight', 'Lightweight'),
+        ]
+    )
+    
+    boat_class = models.CharField(
+        max_length=20,
+    choices = [
+        ('single', 'Single'),
+        ('pair', 'Pair'),
+        ('four', 'Four'),
+        ('double', 'Double'),
+        ('quadruple', 'Quadruple'),
+        ('octuple', 'Octuple'),
+        ('eight', 'Eight'),
+    ]
+    )
+    gender = models.CharField(max_length=6,
+                              choices = [
+                                  ('male', 'Male'),
+                                  ('female', 'Female'),
+                              ]
+    )
+
+    race_number = models.IntegerField()
+    distance = models.IntegerField(blank=True, null=True)
+    event_number = models.IntegerField()
+    regatta = models.ForeignKey(Regatta, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"({self.race_category} {self.race_number} {self.boat_class})"
